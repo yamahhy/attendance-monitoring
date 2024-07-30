@@ -10,20 +10,21 @@
                     <th v-if="hasReason" class="border px-4 py-2">Reason</th>
                 </tr>
             </thead>
-        <tbody>
-            <tr v-for="entry in list" :key="entry.name">
-                <td class="border px-4 py-2">{{ entry.name }}</td>
-                <td class="border px-4 py-2">{{ entry.time }}</td>
-                <td class="border px-4 py-2">{{ entry.date }}</td>
-                <td v-if="hasReason" class="border px-4 py-2">{{ entry.reason }}</td>
-            </tr>
-        </tbody>
+            <tbody>
+                <tr v-for="entry in list" :key="entry.name + entry.date">
+                    <td class="border px-4 py-2">{{ entry.name }}</td>
+                    <td class="border px-4 py-2">{{ entry.time }}</td>
+                    <td class="border px-4 py-2">{{ entry.date }}</td>
+                    <td v-if="hasReason" class="border px-4 py-2">{{ entry.reason }}</td>
+                </tr>
+            </tbody>
         </table>
     </div>
 </template>
 
 <script setup>
 import { defineProps } from 'vue'
+
 const props = defineProps({
     title: String,
     list: Array,

@@ -15,11 +15,9 @@
         </footer>
     </div>
 </template>
-<script setup>
-</script>
 
 <style scoped>
-.container {
-    max-width: 800px;
-}
+    .container {
+        max-width: 800px; /* Adjust as needed */
+    }
 </style>

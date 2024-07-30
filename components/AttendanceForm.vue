@@ -10,6 +10,17 @@
             />
         </div>
         <div class="mb-4">
+            <select
+                v-model="status"
+                class="w-full px-4 py-2 border rounded-md"
+                @change="handleStatusChange"
+            >
+                <option value="" disabled>Select Status</option>
+                <option value="Present">Present</option>
+                <option value="Absent">Absent</option>
+            </select>
+        </div>
+        <div v-if="status === 'Absent'" class="mb-4">
             <input
                 v-model="reason"
                 type="text"
@@ -17,60 +28,60 @@
                 class="w-full px-4 py-2 border rounded-md"
             />
         </div>
-        <div class="flex justify-between">
+        <div class="flex justify-center">
             <button
-                @click="markPresent"
+                @click="submit"
                 class="bg-blue-500 text-white px-4 py-2 rounded-md"
             >
-                Present
+                Submit
             </button>
-            <button
-                @click="markAbsent"
-                class="bg-red-500 text-white px-4 py-2 rounded-md"
-            >
-                Absent
-        </button>
         </div>
     </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { useAttendance } from '@/composables/useAttendance'
+import { useAttendance } from '@/composables/useAttendance.js'
+
     const name = ref('')
+    const status = ref('')
     const reason = ref('')
 
     const { presentList, absentList } = useAttendance()
 
-function markPresent() {
-    if (name.value === '') {
-        alert('Please enter a name.')
-        return
+function handleStatusChange() {
+    if (status.value === 'Present') {
+        reason.value = ''
     }
-    const currentDate = new Date()
-    const time = currentDate.toLocaleTimeString()
-    const date = currentDate.toLocaleDateString()
-
-    presentList.value.push({ name: name.value, time, date })
-    name.value = ''
-    reason.value = ''
 }
 
-function markAbsent() {
+function submit() {
     if (name.value === '') {
         alert('Please enter a name.')
         return
     }
-    if (reason.value === '') {
+    if (status.value === '') {
+        alert('Please select a status.')
+        return
+    }
+    if (status.value === 'Absent' && reason.value === '') {
         alert('Please enter a reason for absence.')
         return
     }
+
     const currentDate = new Date()
     const time = currentDate.toLocaleTimeString()
     const date = currentDate.toLocaleDateString()
 
-    absentList.value.push({ name: name.value, time, date, reason: reason.value })
+    if (status.value === 'Present') {
+        presentList.value.push({ name: name.value, time, date })
+    } else {
+        absentList.value.push({ name: name.value, time, date, reason: reason.value })
+    }
+
+    // Clear inputs after submission
     name.value = ''
+    status.value = ''
     reason.value = ''
 }
 </script>

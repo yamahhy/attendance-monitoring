@@ -10,7 +10,7 @@
 import { ref } from 'vue'
 import AttendanceForm from '@/components/AttendanceForm.vue'
 import AttendanceTable from '@/components/AttendanceTable.vue'
-import { useAttendance } from '@/composables/useAttendance'
+import { useAttendance } from '@/composables/useAttendance.js'
 
 const { presentList, absentList } = useAttendance()
 </script>
